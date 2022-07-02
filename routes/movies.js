@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const validateURL = require('../middlewares/validator');
+const { validateURL } = require('../middlewares/validator');
 
 const {
   getMovies,
@@ -20,7 +20,7 @@ router.post(
       year: Joi.string().required(),
       description: Joi.string().required(),
       image: Joi.string().required().custom(validateURL),
-      trailer: Joi.string().required().custom(validateURL),
+      trailerLink: Joi.string().required().custom(validateURL),
       nameRU: Joi.string().required(),
       nameEN: Joi.string().required(),
       thumbnail: Joi.string().required().custom(validateURL),

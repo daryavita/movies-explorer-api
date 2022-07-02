@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validateURL = require('../middlewares/validator');
+const { validateURL } = require('../middlewares/validator');
 
 const movieSchema = new mongoose.Schema({
   country: {
