@@ -5,7 +5,8 @@ const NotFoundError = require('../errors/Not-found-err');
 const ValidationError = require('../errors/Validation-err');
 
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user.id;
+  Movie.find({ owner })
     .then((movies) => {
       res.send(movies);
     })

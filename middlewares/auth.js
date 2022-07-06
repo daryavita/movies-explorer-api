@@ -1,9 +1,10 @@
 const { NODE_ENV, JWT_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../utils/utils');
 
 const AuthError = require('../errors/Auth-err');
 
-const generateToken = (payload) => jwt.sign(payload, NODE_ENV === 'production' ? JWT_SECRET : '12341234', { expiresIn: '7d' });
+const generateToken = (payload) => jwt.sign(payload, NODE_ENV === 'production' ? JWT_SECRET : jwtSecret, { expiresIn: '7d' });
 
 const isAuthorized = (req, res, next) => {
   const auth = req.headers.authorization;
