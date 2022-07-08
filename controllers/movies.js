@@ -65,7 +65,7 @@ const deleteMovie = (req, res, next) => {
       if (owner !== req.user.id) {
         throw new ForbiddenError('Вы не можете удалить чужой фильм');
       }
-      return movie.remove().then(() => res.send({ message: 'Фильм удалty' }));
+      return movie.remove().then(() => res.send({ message: 'Фильм удален' }));
     })
     .catch(next);
 };
