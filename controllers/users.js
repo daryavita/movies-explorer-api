@@ -12,9 +12,7 @@ const MONGO_DUPLICATE_KEY_CODE = 11000;
 const getUserProfile = (req, res, next) => {
   User.findById(req.user.id)
     .then((user) => res.send(user))
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 const updateUser = (req, res, next) => {
@@ -33,6 +31,9 @@ const updateUser = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
+      if (err.code === MONGO_DUPLICATE_KEY_CODE) {
+        next(new ConflictError('Этот email уже зарегистрирован'));
+      }
       if (err.name === 'ValidationError') {
         next(new ValidationError('Некорректные данные при обновлении пользователя'));
       } else {
@@ -45,10 +46,6 @@ const createUser = (req, res, next) => {
   const {
     name, email, password,
   } = req.body;
-
-  if (!email || !password) {
-    throw new ValidationError('Имя, email и пароль обязательны');
-  }
 
   bcrypt.hash(password, saltRounds).then((hash) => {
     User.create({
@@ -75,9 +72,7 @@ const createUser = (req, res, next) => {
         return next(err);
       });
   })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 const login = (req, res, next) => {
@@ -101,9 +96,7 @@ const login = (req, res, next) => {
       return generateToken({ id: user._id });
     })
     .then((token) => res.send({ token }))
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 module.exports = {

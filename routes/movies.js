@@ -24,7 +24,7 @@ router.post(
       nameRU: Joi.string().required(),
       nameEN: Joi.string().required(),
       thumbnail: Joi.string().required().custom(validateURL),
-      movieId: Joi.string().required(),
+      movieId: Joi.number().required(),
     }),
   }),
   createMovie,
@@ -34,7 +34,7 @@ router.delete(
   '/:_id',
   celebrate({
     params: Joi.object().keys({
-      _id: Joi.string().alphanum().length(24),
+      _id: Joi.string().hex().length(24),
     }),
   }),
   deleteMovie,
