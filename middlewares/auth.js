@@ -17,7 +17,7 @@ const isAuthorized = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : '12341234');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : jwtSecret);
   } catch (e) {
     return next(new AuthError('Требуется авторизация'));
   }

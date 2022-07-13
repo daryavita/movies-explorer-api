@@ -33,8 +33,7 @@ const updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.code === MONGO_DUPLICATE_KEY_CODE) {
         next(new ConflictError('Этот email уже зарегистрирован'));
-      }
-      if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         next(new ValidationError('Некорректные данные при обновлении пользователя'));
       } else {
         next(err);
@@ -65,8 +64,7 @@ const createUser = (req, res, next) => {
       .catch((err) => {
         if (err.name === 'ValidationError') {
           next(new ValidationError('Некорректные данные при создании пользователя'));
-        }
-        if (err.code === MONGO_DUPLICATE_KEY_CODE) {
+        } else if (err.code === MONGO_DUPLICATE_KEY_CODE) {
           return next(new ConflictError('Этот email уже зарегистрирован'));
         }
         return next(err);
